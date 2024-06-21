@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PlaceRentalApp.API.Models;
 
 namespace PlaceRentalApp.API.Controllers
@@ -8,9 +9,15 @@ namespace PlaceRentalApp.API.Controllers
     [ApiController]
     public class PlacesController : ControllerBase
     {
+        public PlacesController(
+            PlacesConfiguration configuration,
+            IOptions<PlacesConfiguration> options) 
+        {
+            var config = options.Value;
+        }
         // GET api/places
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string search, DateTime startDate, DateTime endDate)
         {
             return Ok();
         }
@@ -62,6 +69,23 @@ namespace PlaceRentalApp.API.Controllers
         public IActionResult PostComment (int id, CreateCommentInputModel model)
         {
             return NoContent();
+        }
+
+        // POST api/places/1234/photos
+        [HttpPost("{id}/photos")]
+        public IActionResult PostPlacePhoto(int id, IFormFile file)
+        {
+            var description = $"File: {file.FileName}, Size: {file.Length}";
+            
+            using(var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+
+                var fileBytes = ms.ToArray();
+                var base64 = Convert.ToBase64String(fileBytes);
+
+                return Ok(new { description, base64 });
+            }
         }
     }
 }

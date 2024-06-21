@@ -1,6 +1,0 @@
-@PlaceRentalApp.API_HostAddress = http://localhost:5229
-
-GET {{PlaceRentalApp.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
