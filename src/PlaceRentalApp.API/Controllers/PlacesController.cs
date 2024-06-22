@@ -10,7 +10,6 @@ namespace PlaceRentalApp.API.Controllers
     public class PlacesController : ControllerBase
     {
         public PlacesController(
-            PlacesConfiguration configuration,
             IOptions<PlacesConfiguration> options) 
         {
             var config = options.Value;

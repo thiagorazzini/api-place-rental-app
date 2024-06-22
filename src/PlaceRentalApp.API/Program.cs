@@ -1,34 +1,23 @@
+using PlaceRentalApp.API.Middlewares;
 using PlaceRentalApp.API.Models;
+using PlaceRentalApp.API.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Opção 1
-//var min = builder.Configuration.GetValue<int>("PlacesConfig:MinDescription");
-//var max = builder.Configuration.GetValue<int>("PlacesConfig:MaxDescription");
 
-//var config = new PlacesConfiguration
-//{
-//    MinDescription = min,
-//    MaxDescription = max,
-//};
-
-//Opção 2
-//var config = new PlacesConfiguration();
-//builder.Configuration.GetSection("PlacesConfig").Bind(config);
-//builder.Services.AddSingleton(config);
-//Opção 3
-builder.Services.Configure<PlacesConfiguration>(
-    builder.Configuration.GetSection("PlacesConfig"));
-
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 // Add services to the container.
+builder.Services.AddSingleton<PlaceRentalDbContext>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
