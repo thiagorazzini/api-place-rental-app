@@ -10,8 +10,11 @@ builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 // Add services to the container.
+var connectionString = builder.Configuration
+    .GetConnectionString("PlaceRentalCs");
+
 builder.Services.AddDbContext<PlaceRentalDbContext>(
-    o => o.UseInMemoryDatabase("PlaceRentalDb"));
+    o => o.UseSqlServer(connectionString));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();

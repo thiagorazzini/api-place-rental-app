@@ -22,12 +22,12 @@ namespace PlaceRentalApp.API.Controllers
         {
             var availablePlaces = _context
                 .Places
-                .Where(p => p.Title.Contains(search) &&
+                .Where(p => p.Title.Contains(search) && !p.IsDeleted &&
                 !p.Books.Any(b =>
                 (startDate >= b.StartDate && startDate <= b.EndDate)// dentro do intervalo da reserva existente
                 || (endDate >= b.StartDate && endDate <= b.EndDate) // A data de término da pesquisa está dentro de uma reserva existente
                 || (startDate <= b.StartDate && endDate >= b.EndDate) // A reserva existente está totalmente dentro do intervalo de datas pesquisado.
-                || !p.IsDeleted));
+                ));
 
             return Ok(availablePlaces);
         }

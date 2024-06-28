@@ -28,7 +28,7 @@ namespace PlaceRentalApp.API.Persistence
                     .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasMany(p => p.Books)
-                    .WithOne()
+                    .WithOne(b => b.Place)
                     .HasForeignKey(a => a.IdPlace)
                     .OnDelete(DeleteBehavior.Restrict);
 
