@@ -2,6 +2,8 @@
 
 public class Comment : BaseEntity
 {
+    protected Comment() { }
+
     public Comment(int idUser, string comments)
         : base()
     {

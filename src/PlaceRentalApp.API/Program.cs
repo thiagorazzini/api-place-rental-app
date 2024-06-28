@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PlaceRentalApp.API.Middlewares;
 using PlaceRentalApp.API.Models;
 using PlaceRentalApp.API.Persistence;
@@ -9,7 +10,8 @@ builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 // Add services to the container.
-builder.Services.AddSingleton<PlaceRentalDbContext>();
+builder.Services.AddDbContext<PlaceRentalDbContext>(
+    o => o.UseInMemoryDatabase("PlaceRentalDb"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
